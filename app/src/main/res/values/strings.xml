@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">TaskOne</string>
+
+    <string name="onboarding_question">Which skills would you like to focus on?</string>
+    <string name="onboarding_skill_pronunciation">Pronunciation</string>
+    <string name="onboarding_skill_confident_speaking">Confident speaking</string>
+    <string name="onboarding_skill_vocabulary">Vocabulary</string>
+    <string name="onboarding_skill_listening">Listening</string>
+    <string name="onboarding_skill_grammar">Grammar</string>
+    <string name="onboarding_skill_writing">Writing</string>
+    <string name="onboarding_skill_reading">Reading</string>
+
+    <string name="onboarding_goal_title">Set yourself a goal</string>
+    <string name="onboarding_goal_option_5_min">5 min / day</string>
+    <string name="onboarding_goal_option_10_min">10 min / day</string>
+    <string name="onboarding_goal_option_15_min">15 min / day</string>
+    <string name="onboarding_goal_option_30_min">30 min / day</string>
+    <string name="onboarding_goal_helper_text">A specific goal helps you stay motivated.</string>
+
+    <string name="onboarding_review_bubble">
+        ENGO can definitely help you with that
+    </string>
+    <string name="onboarding_review_subtitle">Community reviews</string>
+    <string name="onboarding_review_anna_comment">
+        Thanks to Engo I am confident in my English conversations. This app really helps!
+    </string>
+    <string name="onboarding_review_safi_comment">
+        Engo has been a game changer for me. I improved a lot in just a few weeks.
+    </string>
+    <string name="onboarding_review_marek_comment">
+        I made great progress with my English thanks to Engo. It feels like having a personal tutor.
+    </string>
+
+    <string name="onboarding_topics_bubble">
+        Select topics you would like to practice speaking on
+    </string>
+    <string name="onboarding_topic_restaurant">Restaurant</string>
+    <string name="onboarding_topic_airport">At the airport</string>
+    <string name="onboarding_topic_business">Business</string>
+    <string name="onboarding_topic_job_interview">Job Interview</string>
+    <string name="onboarding_topic_doctor">At the doctor</string>
+    <string name="onboarding_topic_relationship">Relationship</string>
+    <string name="onboarding_topic_travel">Travel</string>
+    <string name="onboarding_topic_school">School</string>
+
+    <string name="onboarding_continue_button">Continue</string>
+
+    <string name="home_title">Home</string>
+    <string name="home_language_toggle_en">Switch to Spanish</string>
+    <string name="home_language_toggle_es">Cambiar a inglés</string>
+    <string name="home_start_onboarding">Start</string>
+</resources>

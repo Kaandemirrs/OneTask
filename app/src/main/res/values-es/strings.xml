@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">TaskOne</string>
+
+    <string name="onboarding_question">¿En qué habilidades te gustaría enfocarte?</string>
+    <string name="onboarding_skill_pronunciation">Pronunciación</string>
+    <string name="onboarding_skill_confident_speaking">Hablar con confianza</string>
+    <string name="onboarding_skill_vocabulary">Vocabulario</string>
+    <string name="onboarding_skill_listening">Comprensión auditiva</string>
+    <string name="onboarding_skill_grammar">Gramática</string>
+    <string name="onboarding_skill_writing">Escritura</string>
+    <string name="onboarding_skill_reading">Lectura</string>
+
+    <string name="onboarding_goal_title">Márcate un objetivo</string>
+    <string name="onboarding_goal_option_5_min">5 min / día</string>
+    <string name="onboarding_goal_option_10_min">10 min / día</string>
+    <string name="onboarding_goal_option_15_min">15 min / día</string>
+    <string name="onboarding_goal_option_30_min">30 min / día</string>
+    <string name="onboarding_goal_helper_text">Un objetivo concreto te ayuda a mantener la motivación.</string>
+
+    <string name="onboarding_review_bubble">
+        ENGO puede ayudarte con eso
+    </string>
+    <string name="onboarding_review_subtitle">Reseñas de la comunidad</string>
+    <string name="onboarding_review_anna_comment">
+        Gracias a Engo, por fin me siento segura en mis conversaciones en inglés. ¡Esta app realmente cumple!
+    </string>
+    <string name="onboarding_review_safi_comment">
+        Engo ha cambiado las reglas del juego para mí. He mejorado muchísimo en pocas semanas. ¡Muy recomendable!
+    </string>
+    <string name="onboarding_review_marek_comment">
+        He avanzado mucho con mi inglés gracias a Engo. Es como tener un tutor personal siempre disponible.
+    </string>
+
+    <string name="onboarding_topics_bubble">
+        Elige los temas sobre los que quieres practicar conversación
+    </string>
+    <string name="onboarding_topic_restaurant">Restaurante</string>
+    <string name="onboarding_topic_airport">En el aeropuerto</string>
+    <string name="onboarding_topic_business">Negocios</string>
+    <string name="onboarding_topic_job_interview">Entrevista de trabajo</string>
+    <string name="onboarding_topic_doctor">En el médico</string>
+    <string name="onboarding_topic_relationship">Relaciones</string>
+    <string name="onboarding_topic_travel">Viajes</string>
+    <string name="onboarding_topic_school">Escuela</string>
+
+    <string name="onboarding_continue_button">Continuar</string>
+
+    <string name="home_title">Inicio</string>
+    <string name="home_language_toggle_en">Cambiar a español</string>
+    <string name="home_language_toggle_es">Switch to English</string>
+     <string name="home_start_onboarding">Empezar</string>
+</resources>
