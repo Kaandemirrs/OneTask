@@ -24,6 +24,7 @@ import com.example.taskone.R
 
 @Composable
 fun HomeScreen(
+    isOnboardingCompleted: Boolean,
     onStartOnboarding: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
@@ -65,10 +66,12 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Button(
-                onClick = onStartOnboarding
-            ) {
-                Text(text = stringResource(id = R.string.home_start_onboarding))
+            if (!isOnboardingCompleted) {
+                Button(
+                    onClick = onStartOnboarding
+                ) {
+                    Text(text = stringResource(id = R.string.home_start_onboarding))
+                }
             }
         }
     }

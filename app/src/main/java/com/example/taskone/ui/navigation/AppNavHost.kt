@@ -1,6 +1,8 @@
 package com.example.taskone.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -24,7 +26,10 @@ fun AppNavHost(
         startDestination = AppDestination.Home.route
     ) {
         composable(route = AppDestination.Home.route) {
+            val isOnboardingCompleted by onboardingViewModel.isOnboardingCompleted.collectAsState()
+
             HomeScreen(
+                isOnboardingCompleted = isOnboardingCompleted,
                 onStartOnboarding = {
                     navController.navigate(AppDestination.Onboarding.route)
                 }
