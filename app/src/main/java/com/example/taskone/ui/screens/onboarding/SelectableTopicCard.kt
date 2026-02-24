@@ -115,58 +115,19 @@ fun SelectableTopicCard(
             .padding(horizontal = 12.dp, vertical = 10.dp)
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.SpaceBetween
+            modifier = Modifier.fillMaxSize()
         ) {
-            Text(
-                text = stringResource(id = topic.labelRes),
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 16.sp
-            )
-
-            val imageResId = when {
-                topic.id == "restaurant" && restaurantResId != 0 -> restaurantResId
-                topic.id == "airport" && airportResId != 0 -> airportResId
-                topic.id == "business" && businessResId != 0 -> businessResId
-                topic.id == "job_interview" && jobInterviewResId != 0 -> jobInterviewResId
-                topic.id == "doctor" && doctorResId != 0 -> doctorResId
-                topic.id == "relationship" && relationshipResId != 0 -> relationshipResId
-                topic.id == "travel" && travelResId != 0 -> travelResId
-                topic.id == "school" && schoolResId != 0 -> schoolResId
-                else -> placeholderResId
-            }
-
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(90.dp),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Bottom
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                if (imageResId != 0) {
-                    Image(
-                        painter = painterResource(id = imageResId),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxWidth()
-                            .height(90.dp)
-                            .clip(RoundedCornerShape(20.dp)),
-                        contentScale = ContentScale.Crop
-                    )
-                } else {
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxWidth()
-                            .height(90.dp)
-                            .clip(RoundedCornerShape(20.dp))
-                            .background(Color(0xFFDADDE5))
-                    )
-                }
-
-                Spacer(modifier = Modifier.size(8.dp))
+                Text(
+                    text = stringResource(id = topic.labelRes),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 16.sp
+                )
 
                 Box(
                     modifier = Modifier
@@ -191,6 +152,41 @@ fun SelectableTopicCard(
                         )
                     }
                 }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            val imageResId = when {
+                topic.id == "restaurant" && restaurantResId != 0 -> restaurantResId
+                topic.id == "airport" && airportResId != 0 -> airportResId
+                topic.id == "business" && businessResId != 0 -> businessResId
+                topic.id == "job_interview" && jobInterviewResId != 0 -> jobInterviewResId
+                topic.id == "doctor" && doctorResId != 0 -> doctorResId
+                topic.id == "relationship" && relationshipResId != 0 -> relationshipResId
+                topic.id == "travel" && travelResId != 0 -> travelResId
+                topic.id == "school" && schoolResId != 0 -> schoolResId
+                else -> placeholderResId
+            }
+
+            if (imageResId != 0) {
+                Image(
+                    painter = painterResource(id = imageResId),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .clip(RoundedCornerShape(16.dp)),
+                    contentScale = ContentScale.Crop,
+                    alignment = Alignment.Center
+                )
+            } else {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Color(0xFFDADDE5))
+                )
             }
         }
     }

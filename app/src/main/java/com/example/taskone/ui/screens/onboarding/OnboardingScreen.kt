@@ -51,75 +51,75 @@ fun OnboardingScreen(
             .padding(horizontal = 24.dp, vertical = 24.dp)
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween
+            modifier = Modifier.fillMaxSize()
         ) {
-            Column {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = "←",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(end = 16.dp)
+                )
+
+                OnboardingProgressBar(
+                    progress = 0.25f,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.onboardingone),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(72.dp)
+                        .clip(RoundedCornerShape(36.dp))
+                )
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(24.dp))
+                        .background(Color(0xFFF5F5F7))
+                        .border(
+                            width = 1.dp,
+                            color = Color(0xFFB0B0B0),
+                            shape = RoundedCornerShape(24.dp)
+                        )
+                        .padding(horizontal = 20.dp, vertical = 16.dp)
                 ) {
                     Text(
-                        text = "←",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(end = 16.dp)
+                        text = stringResource(id = R.string.onboarding_question),
+                        style = MaterialTheme.typography.bodyLarge
                     )
-
-                    OnboardingProgressBar(
-                        progress = 0.25f,
-                        modifier = Modifier.weight(1f)
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.onboardingone),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(72.dp)
-                            .clip(RoundedCornerShape(36.dp))
-                    )
-
-                    Spacer(modifier = Modifier.width(16.dp))
-
-                    Box(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(24.dp))
-                            .background(Color(0xFFF5F5F7))
-                            .border(
-                                width = 1.dp,
-                                color = Color(0xFFB0B0B0),
-                                shape = RoundedCornerShape(24.dp)
-                            )
-                            .padding(horizontal = 20.dp, vertical = 16.dp)
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.onboarding_question),
-                            style = MaterialTheme.typography.bodyLarge
-                        )
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(32.dp))
-
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(viewModel.skills) { skill ->
-                        SelectableSkillItem(
-                            emoji = skill.emoji,
-                            title = stringResource(id = skill.labelRes),
-                            selected = selectedSkillId == skill.id,
-                            onClick = { viewModel.onSkillSelected(skill.id) }
-                        )
-                    }
                 }
             }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            LazyColumn(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(viewModel.skills) { skill ->
+                    SelectableSkillItem(
+                        emoji = skill.emoji,
+                        title = stringResource(id = skill.labelRes),
+                        selected = selectedSkillId == skill.id,
+                        onClick = { viewModel.onSkillSelected(skill.id) }
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             val continueEnabled = selectedSkillId != null
 
