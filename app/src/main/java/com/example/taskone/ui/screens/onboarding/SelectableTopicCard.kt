@@ -154,7 +154,7 @@ fun SelectableTopicCard(
                 }
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
             val imageResId = when {
                 topic.id == "restaurant" && restaurantResId != 0 -> restaurantResId
@@ -177,7 +177,7 @@ fun SelectableTopicCard(
                         .weight(1f)
                         .clip(RoundedCornerShape(16.dp)),
                     contentScale = ContentScale.Crop,
-                    alignment = Alignment.Center
+                    alignment = Alignment.TopCenter
                 )
             } else {
                 Box(
