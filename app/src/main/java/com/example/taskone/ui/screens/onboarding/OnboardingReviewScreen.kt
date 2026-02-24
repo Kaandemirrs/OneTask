@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -48,76 +46,85 @@ fun OnboardingReviewScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 16.dp)
+            .padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 12.dp)
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            Column(
-                modifier = Modifier.weight(1f)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = "←",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .padding(end = 16.dp)
-                            .clickable { onBack() }
-                    )
+                Text(
+                    text = "←",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .padding(end = 16.dp)
+                        .clickable { onBack() }
+                )
 
-                    OnboardingProgressBar(
-                        progress = 0.75f,
-                        modifier = Modifier.weight(1f)
+                OnboardingProgressBar(
+                    progress = 0.75f,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Text(
+                text = stringResource(id = R.string.onboarding_review_bubble),
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold,
+                fontSize = 26.sp,
+                modifier = Modifier
+                    .fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(6.dp))
+
+            Text(
+                text = stringResource(id = R.string.onboarding_review_subtitle),
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color(0xFF8E8E93),
+                modifier = Modifier
+                    .fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Review cards with staggered layout
+            reviews.forEachIndexed { index, review ->
+                val cardModifier = if (review.highlighted) {
+                    // Middle highlighted card: shifted right
+                    Modifier
+                        .weight(1f)
+                        .padding(start = 20.dp)
+                } else {
+                    // Other cards: shifted left
+                    Modifier
+                        .weight(1f)
+                        .padding(end = 8.dp)
+                }
+
+                Box(modifier = cardModifier) {
+                    ReviewItem(
+                        userName = review.userName,
+                        comment = stringResource(id = review.commentRes),
+                        rating = review.rating,
+                        highlighted = review.highlighted,
+                        avatarResName = review.avatarResName
                     )
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = stringResource(id = R.string.onboarding_review_bubble),
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    textAlign = TextAlign.Center
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = stringResource(id = R.string.onboarding_review_subtitle),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color(0xFF8E8E93),
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    textAlign = TextAlign.Center
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f),
-                    verticalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    items(reviews) { review ->
-                        ReviewItem(
-                            userName = review.userName,
-                            comment = stringResource(id = review.commentRes),
-                            rating = review.rating,
-                            highlighted = review.highlighted,
-                            avatarResName = review.avatarResName
-                        )
-                    }
+                if (index < reviews.lastIndex) {
+                    Spacer(modifier = Modifier.height(10.dp))
                 }
             }
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(6.dp))
 
             OnboardingContinueButton(
                 enabled = true,
@@ -126,3 +133,4 @@ fun OnboardingReviewScreen(
         }
     }
 }
+
