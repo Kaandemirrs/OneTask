@@ -28,7 +28,7 @@ fun OnboardingProgressBar(
         progress = { progress },
         modifier = modifier
             .fillMaxWidth()
-            .height(10.dp)
+            .height(14.dp)
             .clip(RoundedCornerShape(16.dp)),
         color = Color(0xFF02C46D),
         trackColor = Color(0xFFE0FFE9)
