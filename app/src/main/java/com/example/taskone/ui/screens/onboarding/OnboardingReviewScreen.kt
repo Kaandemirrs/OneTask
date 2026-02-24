@@ -75,7 +75,7 @@ fun OnboardingReviewScreen(
                     )
                 }
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
                     text = stringResource(id = R.string.onboarding_review_bubble),
@@ -97,13 +97,13 @@ fun OnboardingReviewScreen(
                     textAlign = TextAlign.Center
                 )
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                    verticalArrangement = Arrangement.SpaceEvenly
                 ) {
                     items(reviews) { review ->
                         ReviewItem(
@@ -117,7 +117,7 @@ fun OnboardingReviewScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
             OnboardingContinueButton(
                 enabled = true,

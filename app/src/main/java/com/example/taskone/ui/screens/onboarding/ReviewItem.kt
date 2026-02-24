@@ -76,11 +76,11 @@ fun ReviewItem(
         val contentModifier = if (highlighted) {
             Modifier
                 .background(gradientBrush)
-                .padding(horizontal = 16.dp, vertical = 14.dp)
+                .padding(horizontal = 16.dp, vertical = 18.dp)
         } else {
             Modifier
                 .background(Color.Transparent)
-                .padding(horizontal = 16.dp, vertical = 14.dp)
+                .padding(horizontal = 16.dp, vertical = 18.dp)
         }
 
         Box(
