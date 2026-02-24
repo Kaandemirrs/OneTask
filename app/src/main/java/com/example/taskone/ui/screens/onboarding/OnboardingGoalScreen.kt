@@ -56,10 +56,8 @@ fun OnboardingGoalScreen(
             .padding(horizontal = 24.dp, vertical = 24.dp)
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween
+            modifier = Modifier.fillMaxSize()
         ) {
-            Column {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth()
@@ -154,49 +152,47 @@ fun OnboardingGoalScreen(
                         Spacer(modifier = Modifier.height(14.dp))
                     }
                 }
-            }
+            Spacer(modifier = Modifier.weight(1f))
 
             val continueEnabled = selectedGoalId != null
 
-            Column {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.onboardingone),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(80.dp)
-                            .clip(RoundedCornerShape(40.dp))
-                    )
-
-                    Spacer(modifier = Modifier.width(16.dp))
-
-                    Box(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(24.dp))
-                            .background(Color(0xFFF5F5F7))
-                            .border(
-                                width = 1.dp,
-                                color = Color(0xFFB0B0B0),
-                                shape = RoundedCornerShape(24.dp)
-                            )
-                            .padding(horizontal = 20.dp, vertical = 16.dp)
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.onboarding_goal_helper_text),
-                            style = MaterialTheme.typography.bodyLarge
-                        )
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-                OnboardingContinueButton(
-                    enabled = continueEnabled,
-                    onClick = onContinue
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.onboardingone),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(88.dp)
+                        .clip(RoundedCornerShape(44.dp))
                 )
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(24.dp))
+                        .background(Color(0xFFF5F5F7))
+                        .border(
+                            width = 1.dp,
+                            color = Color(0xFFB0B0B0),
+                            shape = RoundedCornerShape(24.dp)
+                        )
+                        .padding(horizontal = 20.dp, vertical = 16.dp)
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.onboarding_goal_helper_text),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
             }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            OnboardingContinueButton(
+                enabled = continueEnabled,
+                onClick = onContinue
+            )
         }
     }
 }
