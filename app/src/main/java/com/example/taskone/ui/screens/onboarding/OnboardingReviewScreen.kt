@@ -126,11 +126,32 @@ fun OnboardingReviewScreen(
 
             Spacer(modifier = Modifier.height(6.dp))
 
-            OnboardingContinueButton(
-                enabled = true,
-                onClick = onContinue
-            )
+            // 4th card peeking behind Continue button
+            Box(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                // Peeking card - only top part visible
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                        .padding(end = 8.dp)
+                        .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
+                        .background(Color.White)
+                        .border(
+                            width = 1.dp,
+                            color = Color(0xFFE0E0E0),
+                            shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+                        )
+                ) {}
+
+                // Continue button overlaying the peeking card
+                OnboardingContinueButton(
+                    enabled = true,
+                    onClick = onContinue,
+                    modifier = Modifier.padding(top = 20.dp)
+                )
+            }
         }
     }
 }
-

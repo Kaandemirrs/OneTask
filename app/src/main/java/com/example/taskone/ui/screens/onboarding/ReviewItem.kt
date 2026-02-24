@@ -76,10 +76,12 @@ fun ReviewItem(
     ) {
         val contentModifier = if (highlighted) {
             Modifier
+                .fillMaxSize()
                 .background(gradientBrush)
                 .padding(horizontal = 16.dp, vertical = 18.dp)
         } else {
             Modifier
+                .fillMaxSize()
                 .background(Color.Transparent)
                 .padding(horizontal = 16.dp, vertical = 18.dp)
         }
