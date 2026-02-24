@@ -206,11 +206,11 @@ private fun AnimatedGoalChart(
     // Steeper: orange at very bottom-left, green at upper-right
     val pointHeights = remember(selectedGoalId) {
         when (selectedGoalId) {
-            "5_min" -> Triple(0.05f, 0.22f, 0.50f)
-            "10_min" -> Triple(0.06f, 0.30f, 0.65f)
-            "15_min" -> Triple(0.08f, 0.38f, 0.78f)
-            "30_min" -> Triple(0.10f, 0.45f, 0.92f)
-            else -> Triple(0.03f, 0.12f, 0.30f)
+            "5_min" -> Triple(0.05f, 0.15f, 0.28f)
+            "10_min" -> Triple(0.05f, 0.18f, 0.35f)
+            "15_min" -> Triple(0.06f, 0.22f, 0.42f)
+            "30_min" -> Triple(0.07f, 0.26f, 0.55f)
+            else -> Triple(0.04f, 0.10f, 0.18f)
         }
     }
 
@@ -264,7 +264,7 @@ private fun AnimatedGoalChart(
 
         // --- 3 dashed curves fanning out from the orange dot ---
         // All start at p1 (same origin), spread upward progressively
-        val fanMultipliers = listOf(1.4f, 1.9f, 2.5f)
+        val fanMultipliers = listOf(1.3f, 1.6f, 1.9f)
         val dashSegmentLen = 20f
         val dashGapLen = 14f
         val totalSegments = 80
@@ -281,9 +281,9 @@ private fun AnimatedGoalChart(
                 val t2 = (i + 1).toFloat() / totalSegments
 
                 val x1 = (1 - t1) * (1 - t1) * p1x + 2 * (1 - t1) * t1 * p2x + t1 * t1 * p3x
-                val y1 = (1 - t1) * (1 - t1) * p1y + 2 * (1 - t1) * t1 * dp2y + t1 * t1 * dp3y
+                val y1 = ((1 - t1) * (1 - t1) * p1y + 2 * (1 - t1) * t1 * dp2y + t1 * t1 * dp3y).coerceAtLeast(chartTop)
                 val x2 = (1 - t2) * (1 - t2) * p1x + 2 * (1 - t2) * t2 * p2x + t2 * t2 * p3x
-                val y2 = (1 - t2) * (1 - t2) * p1y + 2 * (1 - t2) * t2 * dp2y + t2 * t2 * dp3y
+                val y2 = ((1 - t2) * (1 - t2) * p1y + 2 * (1 - t2) * t2 * dp2y + t2 * t2 * dp3y).coerceAtLeast(chartTop)
 
                 val segLen = kotlin.math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1))
 
