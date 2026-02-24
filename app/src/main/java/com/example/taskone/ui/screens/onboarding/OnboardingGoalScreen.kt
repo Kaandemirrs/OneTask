@@ -266,13 +266,18 @@ private fun AnimatedGoalChart(
         val p3x = chartLeft + chartW * 0.86f
         val p3y = chartBottom - chartH * animY3
 
-        // --- 3 dashed parallel curves above the main line ---
-        val dashOffsets = listOf(chartH * 0.10f, chartH * 0.22f, chartH * 0.36f)
+        // --- 3 dashed curves fanning out from the orange dot ---
+        // All start at p1 (same origin), spread upward progressively
+        val fanMultipliers = listOf(1.4f, 1.9f, 2.5f)
         val dashSegmentLen = 20f
         val dashGapLen = 14f
         val totalSegments = 80
 
-        for (offset in dashOffsets) {
+        for (mult in fanMultipliers) {
+            // Dashed curve: same start point, but middle and end are progressively higher
+            val dp2y = p1y - (p1y - p2y) * mult
+            val dp3y = p1y - (p1y - p3y) * mult
+
             var dashDrawn = 0f
             var drawing = true
             for (i in 0 until totalSegments) {
@@ -280,9 +285,9 @@ private fun AnimatedGoalChart(
                 val t2 = (i + 1).toFloat() / totalSegments
 
                 val x1 = (1 - t1) * (1 - t1) * p1x + 2 * (1 - t1) * t1 * p2x + t1 * t1 * p3x
-                val y1 = (1 - t1) * (1 - t1) * (p1y - offset) + 2 * (1 - t1) * t1 * (p2y - offset) + t1 * t1 * (p3y - offset)
+                val y1 = (1 - t1) * (1 - t1) * p1y + 2 * (1 - t1) * t1 * dp2y + t1 * t1 * dp3y
                 val x2 = (1 - t2) * (1 - t2) * p1x + 2 * (1 - t2) * t2 * p2x + t2 * t2 * p3x
-                val y2 = (1 - t2) * (1 - t2) * (p1y - offset) + 2 * (1 - t2) * t2 * (p2y - offset) + t2 * t2 * (p3y - offset)
+                val y2 = (1 - t2) * (1 - t2) * p1y + 2 * (1 - t2) * t2 * dp2y + t2 * t2 * dp3y
 
                 val segLen = kotlin.math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1))
 
