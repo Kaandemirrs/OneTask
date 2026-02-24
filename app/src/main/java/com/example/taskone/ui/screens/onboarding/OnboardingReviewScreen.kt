@@ -136,7 +136,7 @@ fun OnboardingReviewScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp)
-                        .padding(end = 8.dp)
+                        .padding(start = 20.dp)
                         .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
                         .background(
                             Brush.verticalGradient(
