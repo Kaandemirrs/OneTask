@@ -207,14 +207,14 @@ private fun AnimatedGoalChart(
     modifier: Modifier = Modifier
 ) {
     // 3 points: start (orange), middle (yellow), end (green)
-    // Y values represent how high each point is (0 = bottom, 1 = top)
+    // Steeper: orange at very bottom-left, green at upper-right
     val pointHeights = remember(selectedGoalId) {
         when (selectedGoalId) {
-            "5_min" -> Triple(0.15f, 0.30f, 0.45f)
-            "10_min" -> Triple(0.20f, 0.45f, 0.65f)
-            "15_min" -> Triple(0.25f, 0.55f, 0.78f)
-            "30_min" -> Triple(0.30f, 0.60f, 0.88f)
-            else -> Triple(0.10f, 0.20f, 0.30f)
+            "5_min" -> Triple(0.08f, 0.25f, 0.42f)
+            "10_min" -> Triple(0.10f, 0.35f, 0.58f)
+            "15_min" -> Triple(0.12f, 0.42f, 0.72f)
+            "30_min" -> Triple(0.15f, 0.48f, 0.85f)
+            else -> Triple(0.05f, 0.15f, 0.28f)
         }
     }
 
@@ -232,7 +232,7 @@ private fun AnimatedGoalChart(
     val limeColor = Color(0xFFB2D300)
     val greenColor = Color(0xFF4CAF50)
     val gridColor = Color(0xFFE0E0E0)
-    val dashColor = Color(0xFFD0D0D0)
+    val dashColor = Color(0xFFCBCBCB)
 
     Canvas(modifier = modifier) {
         val w = size.width
@@ -247,8 +247,8 @@ private fun AnimatedGoalChart(
         val chartH = chartBottom - chartTop
 
         // --- Grid lines ---
-        val hLines = 4
-        val vLines = 4
+        val hLines = 3
+        val vLines = 3
         for (i in 0..hLines) {
             val y = chartTop + chartH * i / hLines
             drawLine(gridColor, Offset(chartLeft, y), Offset(chartRight, y), strokeWidth = 1.5f)
@@ -258,44 +258,60 @@ private fun AnimatedGoalChart(
             drawLine(gridColor, Offset(x, chartTop), Offset(x, chartBottom), strokeWidth = 1.5f)
         }
 
-        // --- Diagonal dashes (rain/motion effect) ---
-        val dashLen = 18f
-        val dashGap = 22f
-        val dashAngle = -40f
-        val radians = dashAngle * (Math.PI / 180f).toFloat()
-        val dx = kotlin.math.cos(radians) * dashLen
-        val dy = kotlin.math.sin(radians) * dashLen
+        // --- 3 main points ---
+        val p1x = chartLeft + chartW * 0.06f
+        val p1y = chartBottom - chartH * animY1
+        val p2x = chartLeft + chartW * 0.46f
+        val p2y = chartBottom - chartH * animY2
+        val p3x = chartLeft + chartW * 0.86f
+        val p3y = chartBottom - chartH * animY3
 
-        for (row in 0..7) {
-            for (col in 0..9) {
-                val cx = chartLeft + chartW * 0.15f + col * (dashLen + dashGap) + (row % 2) * 14f
-                val cy = chartTop + chartH * 0.1f + row * (dashLen + dashGap * 0.6f)
-                if (cx in chartLeft..chartRight && cy in chartTop..chartBottom) {
+        // --- 3 dashed parallel curves above the main line ---
+        val dashOffsets = listOf(chartH * 0.10f, chartH * 0.22f, chartH * 0.36f)
+        val dashSegmentLen = 20f
+        val dashGapLen = 14f
+        val totalSegments = 80
+
+        for (offset in dashOffsets) {
+            var dashDrawn = 0f
+            var drawing = true
+            for (i in 0 until totalSegments) {
+                val t1 = i.toFloat() / totalSegments
+                val t2 = (i + 1).toFloat() / totalSegments
+
+                val x1 = (1 - t1) * (1 - t1) * p1x + 2 * (1 - t1) * t1 * p2x + t1 * t1 * p3x
+                val y1 = (1 - t1) * (1 - t1) * (p1y - offset) + 2 * (1 - t1) * t1 * (p2y - offset) + t1 * t1 * (p3y - offset)
+                val x2 = (1 - t2) * (1 - t2) * p1x + 2 * (1 - t2) * t2 * p2x + t2 * t2 * p3x
+                val y2 = (1 - t2) * (1 - t2) * (p1y - offset) + 2 * (1 - t2) * t2 * (p2y - offset) + t2 * t2 * (p3y - offset)
+
+                val segLen = kotlin.math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1))
+
+                if (drawing) {
                     drawLine(
                         color = dashColor,
-                        start = Offset(cx - dx / 2, cy - dy / 2),
-                        end = Offset(cx + dx / 2, cy + dy / 2),
-                        strokeWidth = 3f,
+                        start = Offset(x1, y1),
+                        end = Offset(x2, y2),
+                        strokeWidth = 4f,
                         cap = StrokeCap.Round
                     )
                 }
+
+                dashDrawn += segLen
+                if (drawing && dashDrawn >= dashSegmentLen) {
+                    drawing = false
+                    dashDrawn = 0f
+                } else if (!drawing && dashDrawn >= dashGapLen) {
+                    drawing = true
+                    dashDrawn = 0f
+                }
             }
         }
-
-        // --- 3 points ---
-        val p1x = chartLeft + chartW * 0.08f
-        val p1y = chartBottom - chartH * animY1
-        val p2x = chartLeft + chartW * 0.48f
-        val p2y = chartBottom - chartH * animY2
-        val p3x = chartLeft + chartW * 0.88f
-        val p3y = chartBottom - chartH * animY3
 
         // --- Gradient curved line using segments ---
         val segments = 100
         val points = mutableListOf<Offset>()
         for (i in 0..segments) {
             val t = i.toFloat() / segments
-            // Quadratic bezier through 3 points
             val x = (1 - t) * (1 - t) * p1x + 2 * (1 - t) * t * p2x + t * t * p3x
             val y = (1 - t) * (1 - t) * p1y + 2 * (1 - t) * t * p2y + t * t * p3y
             points.add(Offset(x, y))
@@ -353,4 +369,5 @@ private fun lerp(start: Color, end: Color, fraction: Float): Color {
         alpha = 1f
     )
 }
+
 
