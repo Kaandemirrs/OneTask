@@ -29,17 +29,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.taskone.R
@@ -211,82 +206,151 @@ private fun AnimatedGoalChart(
     selectedGoalId: String?,
     modifier: Modifier = Modifier
 ) {
-    val dayLabels = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
-
-    val barHeights = remember(selectedGoalId) {
+    // 3 points: start (orange), middle (yellow), end (green)
+    // Y values represent how high each point is (0 = bottom, 1 = top)
+    val pointHeights = remember(selectedGoalId) {
         when (selectedGoalId) {
-            "5_min" -> listOf(0.25f, 0.35f, 0.20f, 0.40f, 0.30f, 0.15f, 0.20f)
-            "10_min" -> listOf(0.40f, 0.55f, 0.45f, 0.60f, 0.50f, 0.35f, 0.40f)
-            "15_min" -> listOf(0.55f, 0.70f, 0.60f, 0.80f, 0.65f, 0.50f, 0.60f)
-            "30_min" -> listOf(0.75f, 0.90f, 0.80f, 1.00f, 0.85f, 0.70f, 0.80f)
-            else -> listOf(0.15f, 0.15f, 0.15f, 0.15f, 0.15f, 0.15f, 0.15f)
+            "5_min" -> Triple(0.15f, 0.30f, 0.45f)
+            "10_min" -> Triple(0.20f, 0.45f, 0.65f)
+            "15_min" -> Triple(0.25f, 0.55f, 0.78f)
+            "30_min" -> Triple(0.30f, 0.60f, 0.88f)
+            else -> Triple(0.10f, 0.20f, 0.30f)
         }
     }
 
-    val animatedHeights = barHeights.map { target ->
-        animateFloatAsState(
-            targetValue = target,
-            animationSpec = spring(
-                dampingRatio = Spring.DampingRatioMediumBouncy,
-                stiffness = Spring.StiffnessLow
-            ),
-            label = "barHeight"
-        ).value
-    }
-
-    val textMeasurer = rememberTextMeasurer()
-    val labelStyle = TextStyle(
-        fontSize = 11.sp,
-        color = Color(0xFF8E8E93),
-        fontWeight = FontWeight.Medium
+    val animSpec = spring<Float>(
+        dampingRatio = Spring.DampingRatioMediumBouncy,
+        stiffness = Spring.StiffnessLow
     )
 
-    val barGradientColors = listOf(Color(0xFF7F5AF0), Color(0xFFA78BFA))
-    val inactiveColor = Color(0xFFE8E5F0)
+    val animY1 by animateFloatAsState(targetValue = pointHeights.first, animationSpec = animSpec, label = "y1")
+    val animY2 by animateFloatAsState(targetValue = pointHeights.second, animationSpec = animSpec, label = "y2")
+    val animY3 by animateFloatAsState(targetValue = pointHeights.third, animationSpec = animSpec, label = "y3")
+
+    val orangeColor = Color(0xFFFF8C00)
+    val yellowColor = Color(0xFFFFD600)
+    val limeColor = Color(0xFFB2D300)
+    val greenColor = Color(0xFF4CAF50)
+    val gridColor = Color(0xFFE0E0E0)
+    val dashColor = Color(0xFFD0D0D0)
 
     Canvas(modifier = modifier) {
-        val canvasWidth = size.width
-        val canvasHeight = size.height
-        val labelAreaHeight = 28f
-        val chartHeight = canvasHeight - labelAreaHeight
-        val barCount = 7
-        val totalSpacing = canvasWidth * 0.3f
-        val barWidth = (canvasWidth - totalSpacing) / barCount
-        val spacing = totalSpacing / (barCount + 1)
-        val cornerRadius = barWidth / 3f
+        val w = size.width
+        val h = size.height
+        val padding = 24f
 
-        dayLabels.forEachIndexed { index, label ->
-            val barX = spacing + index * (barWidth + spacing)
-            val animHeight = animatedHeights[index]
-            val barHeight = chartHeight * animHeight
-            val barY = chartHeight - barHeight
+        val chartLeft = padding
+        val chartRight = w - padding
+        val chartTop = padding
+        val chartBottom = h - padding
+        val chartW = chartRight - chartLeft
+        val chartH = chartBottom - chartTop
 
-            // Inactive background bar
-            drawRoundRect(
-                color = inactiveColor,
-                topLeft = Offset(barX, 0f),
-                size = Size(barWidth, chartHeight),
-                cornerRadius = CornerRadius(cornerRadius, cornerRadius)
-            )
-
-            // Active animated bar
-            val barBrush = Brush.verticalGradient(
-                colors = barGradientColors,
-                startY = barY,
-                endY = chartHeight
-            )
-            drawRoundRect(
-                brush = barBrush,
-                topLeft = Offset(barX, barY),
-                size = Size(barWidth, barHeight),
-                cornerRadius = CornerRadius(cornerRadius, cornerRadius)
-            )
-
-            // Day label
-            val textLayout = textMeasurer.measure(label, labelStyle)
-            val textX = barX + (barWidth - textLayout.size.width) / 2f
-            val textY = chartHeight + (labelAreaHeight - textLayout.size.height) / 2f
-            drawText(textLayout, topLeft = Offset(textX, textY))
+        // --- Grid lines ---
+        val hLines = 4
+        val vLines = 4
+        for (i in 0..hLines) {
+            val y = chartTop + chartH * i / hLines
+            drawLine(gridColor, Offset(chartLeft, y), Offset(chartRight, y), strokeWidth = 1.5f)
         }
+        for (i in 0..vLines) {
+            val x = chartLeft + chartW * i / vLines
+            drawLine(gridColor, Offset(x, chartTop), Offset(x, chartBottom), strokeWidth = 1.5f)
+        }
+
+        // --- Diagonal dashes (rain/motion effect) ---
+        val dashLen = 18f
+        val dashGap = 22f
+        val dashAngle = -40f
+        val radians = dashAngle * (Math.PI / 180f).toFloat()
+        val dx = kotlin.math.cos(radians) * dashLen
+        val dy = kotlin.math.sin(radians) * dashLen
+
+        for (row in 0..7) {
+            for (col in 0..9) {
+                val cx = chartLeft + chartW * 0.15f + col * (dashLen + dashGap) + (row % 2) * 14f
+                val cy = chartTop + chartH * 0.1f + row * (dashLen + dashGap * 0.6f)
+                if (cx in chartLeft..chartRight && cy in chartTop..chartBottom) {
+                    drawLine(
+                        color = dashColor,
+                        start = Offset(cx - dx / 2, cy - dy / 2),
+                        end = Offset(cx + dx / 2, cy + dy / 2),
+                        strokeWidth = 3f,
+                        cap = StrokeCap.Round
+                    )
+                }
+            }
+        }
+
+        // --- 3 points ---
+        val p1x = chartLeft + chartW * 0.08f
+        val p1y = chartBottom - chartH * animY1
+        val p2x = chartLeft + chartW * 0.48f
+        val p2y = chartBottom - chartH * animY2
+        val p3x = chartLeft + chartW * 0.88f
+        val p3y = chartBottom - chartH * animY3
+
+        // --- Gradient curved line using segments ---
+        val segments = 100
+        val points = mutableListOf<Offset>()
+        for (i in 0..segments) {
+            val t = i.toFloat() / segments
+            // Quadratic bezier through 3 points
+            val x = (1 - t) * (1 - t) * p1x + 2 * (1 - t) * t * p2x + t * t * p3x
+            val y = (1 - t) * (1 - t) * p1y + 2 * (1 - t) * t * p2y + t * t * p3y
+            points.add(Offset(x, y))
+        }
+
+        // Draw the curve with gradient segments
+        for (i in 0 until points.size - 1) {
+            val t = i.toFloat() / (points.size - 1)
+            val color = when {
+                t < 0.33f -> {
+                    val lt = t / 0.33f
+                    lerp(orangeColor, yellowColor, lt)
+                }
+                t < 0.66f -> {
+                    val lt = (t - 0.33f) / 0.33f
+                    lerp(yellowColor, limeColor, lt)
+                }
+                else -> {
+                    val lt = (t - 0.66f) / 0.34f
+                    lerp(limeColor, greenColor, lt)
+                }
+            }
+            drawLine(
+                color = color,
+                start = points[i],
+                end = points[i + 1],
+                strokeWidth = 7f,
+                cap = StrokeCap.Round
+            )
+        }
+
+        // --- Dots ---
+        val dotRadius = 16f
+        val dotBorderWidth = 4f
+
+        // Orange dot
+        drawCircle(color = Color.White, radius = dotRadius + dotBorderWidth, center = Offset(p1x, p1y))
+        drawCircle(color = orangeColor, radius = dotRadius, center = Offset(p1x, p1y))
+
+        // Yellow dot
+        drawCircle(color = Color.White, radius = dotRadius + dotBorderWidth, center = Offset(p2x, p2y))
+        drawCircle(color = yellowColor, radius = dotRadius, center = Offset(p2x, p2y))
+
+        // Green dot
+        drawCircle(color = Color.White, radius = dotRadius + dotBorderWidth, center = Offset(p3x, p3y))
+        drawCircle(color = greenColor, radius = dotRadius, center = Offset(p3x, p3y))
     }
 }
+
+private fun lerp(start: Color, end: Color, fraction: Float): Color {
+    return Color(
+        red = start.red + (end.red - start.red) * fraction,
+        green = start.green + (end.green - start.green) * fraction,
+        blue = start.blue + (end.blue - start.blue) * fraction,
+        alpha = 1f
+    )
+}
+
