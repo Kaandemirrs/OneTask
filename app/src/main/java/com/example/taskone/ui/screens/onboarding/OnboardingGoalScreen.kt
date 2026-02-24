@@ -87,12 +87,11 @@ fun OnboardingGoalScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Chart fills remaining space
             AnimatedGoalChart(
                 selectedGoalId = selectedGoalId,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f)
+                    .height(200.dp)
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -154,7 +153,7 @@ fun OnboardingGoalScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(14.dp))
+            Spacer(modifier = Modifier.weight(1f))
 
             val continueEnabled = selectedGoalId != null
 
@@ -165,8 +164,8 @@ fun OnboardingGoalScreen(
                     painter = painterResource(id = R.drawable.onboardingone),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(96.dp)
-                        .clip(RoundedCornerShape(48.dp))
+                        .size(100.dp)
+                        .clip(RoundedCornerShape(50.dp))
                 )
 
                 Spacer(modifier = Modifier.width(14.dp))
@@ -185,7 +184,7 @@ fun OnboardingGoalScreen(
                     Text(
                         text = stringResource(id = R.string.onboarding_goal_helper_text),
                         style = MaterialTheme.typography.bodyLarge,
-                        fontSize = 16.sp
+                        fontSize = 17.sp
                     )
                 }
             }
