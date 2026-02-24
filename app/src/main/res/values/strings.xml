@@ -45,8 +45,7 @@
 
     <string name="onboarding_continue_button">Continue</string>
 
-    <string name="home_title">Home</string>
-    <string name="home_language_toggle_en">Switch to Spanish</string>
-    <string name="home_language_toggle_es">Cambiar a inglés</string>
-    <string name="home_start_onboarding">Start</string>
+    <string name="home_welcome_title">Welcome to Engo</string>
+    <string name="home_welcome_subtitle">Your personal AI-powered English speaking coach. Let\'s get started!</string>
+    <string name="home_start_onboarding">Continue</string>
 </resources>
