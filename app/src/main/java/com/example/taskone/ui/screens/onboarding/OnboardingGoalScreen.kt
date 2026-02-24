@@ -53,106 +53,108 @@ fun OnboardingGoalScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(horizontal = 24.dp, vertical = 24.dp)
+            .padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 10.dp)
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = "←",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .padding(end = 16.dp)
-                            .clickable { onBack() }
-                    )
-
-                    OnboardingProgressBar(
-                        progress = 0.5f,
-                        modifier = Modifier.weight(1f)
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(24.dp))
-
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Text(
-                    text = stringResource(id = R.string.onboarding_goal_title),
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold
-                )
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                AnimatedGoalChart(
-                    selectedGoalId = selectedGoalId,
+                    text = "←",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
+                        .padding(end = 16.dp)
+                        .clickable { onBack() }
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                OnboardingProgressBar(
+                    progress = 0.5f,
+                    modifier = Modifier.weight(1f)
+                )
+            }
 
-                val goals = viewModel.goalDurations
-                val rows = goals.chunked(2)
+            Spacer(modifier = Modifier.height(28.dp))
 
-                rows.forEachIndexed { index, rowItems ->
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        rowItems.forEach { goal ->
-                            val selected = goal.id == selectedGoalId
-                            val backgroundColor = if (selected) {
-                                Color(0xFFE4E7FF)
-                            } else {
-                                Color(0xFFF5F5F7)
-                            }
-                            val borderColor = if (selected) {
-                                Color(0xFF4D5BFF)
-                            } else {
-                                Color(0xFFE0E0E0)
-                            }
+            Text(
+                text = stringResource(id = R.string.onboarding_goal_title),
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold
+            )
 
-                            Box(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .height(64.dp)
-                                    .clip(RoundedCornerShape(16.dp))
-                                    .background(backgroundColor)
-                                    .border(
-                                        width = 2.dp,
-                                        color = borderColor,
-                                        shape = RoundedCornerShape(16.dp)
-                                    )
-                                    .clickable { viewModel.onGoalSelected(goal.id) },
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    text = stringResource(id = goal.labelRes),
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    fontWeight = FontWeight.SemiBold
-                                )
-                            }
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Chart fills remaining space
+            AnimatedGoalChart(
+                selectedGoalId = selectedGoalId,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            val goals = viewModel.goalDurations
+            val rows = goals.chunked(2)
+
+            rows.forEachIndexed { index, rowItems ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    rowItems.forEach { goal ->
+                        val selected = goal.id == selectedGoalId
+                        val backgroundColor = if (selected) {
+                            Color(0xFFE4E7FF)
+                        } else {
+                            Color(0xFFF5F5F7)
+                        }
+                        val borderColor = if (selected) {
+                            Color(0xFF4D5BFF)
+                        } else {
+                            Color(0xFFE0E0E0)
                         }
 
-                        if (rowItems.size == 1) {
-                            Spacer(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .height(64.dp)
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(68.dp)
+                                .clip(RoundedCornerShape(16.dp))
+                                .background(backgroundColor)
+                                .border(
+                                    width = 2.dp,
+                                    color = borderColor,
+                                    shape = RoundedCornerShape(16.dp)
+                                )
+                                .clickable { viewModel.onGoalSelected(goal.id) },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = stringResource(id = goal.labelRes),
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontWeight = FontWeight.SemiBold
                             )
                         }
                     }
 
-                    if (index != rows.lastIndex) {
-                        Spacer(modifier = Modifier.height(14.dp))
+                    if (rowItems.size == 1) {
+                        Spacer(
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(68.dp)
+                        )
                     }
                 }
-            Spacer(modifier = Modifier.weight(1f))
+
+                if (index != rows.lastIndex) {
+                    Spacer(modifier = Modifier.height(14.dp))
+                }
+            }
+
+            Spacer(modifier = Modifier.height(14.dp))
 
             val continueEnabled = selectedGoalId != null
 
@@ -163,11 +165,11 @@ fun OnboardingGoalScreen(
                     painter = painterResource(id = R.drawable.onboardingone),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(88.dp)
-                        .clip(RoundedCornerShape(44.dp))
+                        .size(96.dp)
+                        .clip(RoundedCornerShape(48.dp))
                 )
 
-                Spacer(modifier = Modifier.width(16.dp))
+                Spacer(modifier = Modifier.width(14.dp))
 
                 Box(
                     modifier = Modifier
@@ -178,11 +180,12 @@ fun OnboardingGoalScreen(
                             color = Color(0xFFB0B0B0),
                             shape = RoundedCornerShape(24.dp)
                         )
-                        .padding(horizontal = 20.dp, vertical = 16.dp)
+                        .padding(horizontal = 20.dp, vertical = 18.dp)
                 ) {
                     Text(
                         text = stringResource(id = R.string.onboarding_goal_helper_text),
-                        style = MaterialTheme.typography.bodyLarge
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontSize = 16.sp
                     )
                 }
             }
