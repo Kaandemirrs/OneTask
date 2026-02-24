@@ -96,7 +96,7 @@ fun OnboardingGoalScreen(
                         .height(200.dp)
                 )
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
                 val goals = viewModel.goalDurations
                 val rows = goals.chunked(2)
@@ -122,7 +122,7 @@ fun OnboardingGoalScreen(
                             Box(
                                 modifier = Modifier
                                     .weight(1f)
-                                    .height(56.dp)
+                                    .height(64.dp)
                                     .clip(RoundedCornerShape(16.dp))
                                     .background(backgroundColor)
                                     .border(
@@ -145,13 +145,13 @@ fun OnboardingGoalScreen(
                             Spacer(
                                 modifier = Modifier
                                     .weight(1f)
-                                    .height(56.dp)
+                                    .height(64.dp)
                             )
                         }
                     }
 
                     if (index != rows.lastIndex) {
-                        Spacer(modifier = Modifier.height(12.dp))
+                        Spacer(modifier = Modifier.height(14.dp))
                     }
                 }
             }
@@ -166,8 +166,8 @@ fun OnboardingGoalScreen(
                         painter = painterResource(id = R.drawable.onboardingone),
                         contentDescription = null,
                         modifier = Modifier
-                            .size(72.dp)
-                            .clip(RoundedCornerShape(36.dp))
+                            .size(80.dp)
+                            .clip(RoundedCornerShape(40.dp))
                     )
 
                     Spacer(modifier = Modifier.width(16.dp))
@@ -181,7 +181,7 @@ fun OnboardingGoalScreen(
                                 color = Color(0xFFB0B0B0),
                                 shape = RoundedCornerShape(24.dp)
                             )
-                            .padding(horizontal = 20.dp, vertical = 14.dp)
+                            .padding(horizontal = 20.dp, vertical = 16.dp)
                     ) {
                         Text(
                             text = stringResource(id = R.string.onboarding_goal_helper_text),
@@ -190,7 +190,7 @@ fun OnboardingGoalScreen(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(10.dp))
 
                 OnboardingContinueButton(
                     enabled = continueEnabled,
@@ -210,11 +210,11 @@ private fun AnimatedGoalChart(
     // Steeper: orange at very bottom-left, green at upper-right
     val pointHeights = remember(selectedGoalId) {
         when (selectedGoalId) {
-            "5_min" -> Triple(0.08f, 0.25f, 0.42f)
-            "10_min" -> Triple(0.10f, 0.35f, 0.58f)
-            "15_min" -> Triple(0.12f, 0.42f, 0.72f)
-            "30_min" -> Triple(0.15f, 0.48f, 0.85f)
-            else -> Triple(0.05f, 0.15f, 0.28f)
+            "5_min" -> Triple(0.05f, 0.22f, 0.50f)
+            "10_min" -> Triple(0.06f, 0.30f, 0.65f)
+            "15_min" -> Triple(0.08f, 0.38f, 0.78f)
+            "30_min" -> Triple(0.10f, 0.45f, 0.92f)
+            else -> Triple(0.03f, 0.12f, 0.30f)
         }
     }
 
