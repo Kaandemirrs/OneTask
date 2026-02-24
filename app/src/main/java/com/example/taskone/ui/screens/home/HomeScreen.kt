@@ -47,7 +47,7 @@ fun HomeScreen(
             Spacer(modifier = Modifier.weight(1f))
 
             Image(
-                painter = painterResource(id = R.drawable.onboardingoneaa),
+                painter = painterResource(id = R.drawable.onboardingone),
                 contentDescription = null,
                 modifier = Modifier
                     .size(140.dp)

@@ -48,7 +48,7 @@ fun OnboardingScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(horizontal = 24.dp, vertical = 24.dp)
+            .padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 16.dp)
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
@@ -103,11 +103,11 @@ fun OnboardingScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             LazyColumn(
                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 items(viewModel.skills) { skill ->
                     SelectableSkillItem(
@@ -119,7 +119,7 @@ fun OnboardingScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             val continueEnabled = selectedSkillId != null
 
